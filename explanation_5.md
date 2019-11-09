@@ -1,0 +1,3 @@
+My implementation just follows the three main parts of the requirements in the problem where it utilizes the hashing function that was provided, using the Block class for creating a single block and a LinkedList which is suggested where the node value will be the block. So the data structure used for this is Linkedlist. 
+
+The time complexity for adding new block is O(1) since I'm already keeping track of the tail and space complexity is O(n) as the output depends on the blocks added. I've added some extra functions for updating and checking if the blockchain is valid by comparing the previous hash and the hash which will take O(n).

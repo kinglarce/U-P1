@@ -1,0 +1,1 @@
+The data structure used for this is Recursion since the pattern for looking through the groups is just the same. My implementation is to traverse on the tree of groups then the time complexity will be O(2^n) as it goes over to each group of groups and the space complexity will be O(1) as I'm only checking if the user exists in the list return boolean.

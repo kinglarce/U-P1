@@ -27,6 +27,20 @@ def find_files(suffix, path):
     Returns:
        a list of paths
     """
-    return fine_files_util(suffix, path, [])    
+    if suffix is None or path is None:
+        return
 
+    return fine_files_util(suffix, path, [])
+
+# Test case 1
+# Expected: ['./testdir/subdir3/subsubdir1/b.c', './testdir/t1.c', './testdir/subdir5/a.c', './testdir/subdir1/a.c']
 print(find_files('.c', './testdir'))
+
+# Test case 2
+# Expected: [] because the file didn't exist in the first place
+print(find_files('.csv', './testdir'))
+
+# Test case 3
+# Expected: None for both because there's no such path exist or directory exist
+print(find_files(None, './testdir')) 
+print(find_files(None, None)) 

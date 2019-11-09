@@ -1,0 +1,5 @@
+In the problem, it says that "All operations must take O(1) time" and from that, the obvious answer is hashmap where we already have a unique key and we can just grab the value from the key which will take O(1). 
+
+Second, I want some data structure that can grab something from the middle and put it in the head as well as access something directly without traversing, so the data structure that I used is Link is LinkedList, and to be specific, I use doubly LinkedList so that is easy to connect the previous and next node without traversing the whole LinkedList in combination with Map for access value directly without traversing.
+
+So, in my implementation, I can expect the time complexity of accessing and setting of data will take O(1) and space complexity will take O(n) because it depends on the capacity that I set.

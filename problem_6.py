@@ -21,6 +21,8 @@ class LinkedList:
 
 
     def append(self, value):
+        if value is None:
+            return None
 
         if self.head is None:
             self.head = Node(value)
@@ -97,8 +99,8 @@ for i in element_1:
 for i in element_2:
     linked_list_2.append(i)
 
-print (union(linked_list_1,linked_list_2))
-print (intersection(linked_list_1,linked_list_2))
+print (union(linked_list_1,linked_list_2)) # Expected: 4 -> 6 -> 21 ->
+print (intersection(linked_list_1,linked_list_2)) # Expected: 32 -> 65 -> 2 -> 35 -> 3 -> 4 -> 6 -> 1 -> 9 -> 11 -> 21 ->
 
 # Test case 2
 
@@ -114,5 +116,16 @@ for i in element_1:
 for i in element_2:
     linked_list_4.append(i)
 
-print (union(linked_list_3,linked_list_4))
-print (intersection(linked_list_3,linked_list_4))
+print (union(linked_list_3,linked_list_4)) # Expected: ""(Empty) since both the linkedlist has unique values
+print (intersection(linked_list_3,linked_list_4)) # Expected: 65 -> 2 -> 35 -> 3 -> 4 -> 6 -> 1 -> 7 -> 8 -> 9 -> 11 -> 21 -> 23 ->
+
+# Test case 3
+
+linked_list_5 = LinkedList()
+linked_list_6 = LinkedList()
+
+linked_list_5.append(None)
+linked_list_6.append(None)
+
+print (union(linked_list_5,linked_list_6)) # Expected: ""(Empty)
+print (intersection(linked_list_5,linked_list_6)) # Expected: ""(Empty)

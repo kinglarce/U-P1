@@ -31,21 +31,25 @@ timestamp = datetime.datetime.now(datetime.timezone.utc).strftime("%H:%M %m/%d/%
 class LinkedList:
     def __init__(self):
         self.head = None
+        self.tail = None
         
     def get_node(self, value, prev_hash=None):
         block = Block(timestamp, value, prev_hash)
         return Node(block)
         
     def add(self, value):
+        if value is None:
+            return None
+
         if self.head is None:
             self.head = self.get_node(value)
-            return
+            self.tail = self.head 
+            return self.head.value.hash
         
-        tail = self.head
-        while tail.next:
-            tail = tail.next
-        
+        tail = self.tail
         tail.next = self.get_node(value, tail.value.hash)
+        self.tail = tail.next
+
         return tail.next.value.hash
     
     def get_latest(self):
@@ -77,12 +81,29 @@ class LinkedList:
         
         return True
 
+# Test case 1
+
 blockchain = LinkedList()
 print(blockchain.add('data1'))
 print(blockchain.add('data2'))
 print(blockchain.add('data3'))
 print(blockchain.add('data4'))
-print(blockchain.get_latest())
-print(blockchain.is_chain_valid())
-# blockchain.update('ac56d2314f002b1bb8e72dcace35b1805d7e58bda6033ebfbf7c35f35df4d24e', 'zzz')
-# blockchain.is_chain_valid()
+print(blockchain.get_latest()) # Expected: data4
+print(blockchain.is_chain_valid()) # Expected: True
+
+# Test case 2
+
+blockchain = LinkedList()
+print(blockchain.add('input1'))
+print(blockchain.add('input2'))
+print(blockchain.add('input3'))
+print(blockchain.is_chain_valid()) # Expected: True
+blockchain.update('124d8541ff3d7a18b95432bdfbecd86816b86c8265bff44ef629765afb25f06b', 'ZZZZ')
+print(blockchain.is_chain_valid()) # Expected: False
+
+# Test case 3
+
+blockchain = LinkedList()
+print(blockchain.add(None)) # Expected: None
+print(blockchain.add(None)) # Expected: None
+print(blockchain.add('input3')) # Expected: <The hash value of "input3"> 

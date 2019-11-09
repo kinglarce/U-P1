@@ -5,7 +5,6 @@ class Node:
         self.prev = None
         self.next = None
         
-
 class LRU_Cache:
 
     def __init__(self, capacity):
@@ -22,15 +21,17 @@ class LRU_Cache:
     def get(self, key):
         # Retrieve item from provided key. Return -1 if nonexistent. 
         node = self.hashtable.get(key)
-        
-        if node is None:
+
+        if key is None or node is None:
             return -1
         
         self.move_to_front(node)
-        self.print_list()
         return node.value
 
     def set(self, key, value):
+        if key is None:
+            return
+
         # Set the value if the key is not present in the cache. If the cache is at capacity remove the oldest item.
         node = self.hashtable.get(key)
         
@@ -47,8 +48,6 @@ class LRU_Cache:
         else:
             node.value = value
             self.move_to_front(node)
-            
-        self.print_list()
        
     def move_to_front(self, node):
         self.remove_back(node)
@@ -75,37 +74,42 @@ class LRU_Cache:
     
     def add_front(self, node):
         # Wire up the new node being to be inserted
-        
         # Wire the current node prev to the head
-        node.prev = self.head;
+        node.prev = self.head
         # Wire the current node next to the previous head next
-        node.next = self.head.next;
+        node.next = self.head.next
         # Wire the previous head next previous value to the current node
-        self.head.next.prev = node;
+        self.head.next.prev = node
         # Wire the head next to the current node
-        self.head.next = node;
-        
-    def print_list(self):
-        head = self.head
-        print('====')
-        while head:
-            print(head.value)
-            head = head.next
-        print('====')
+        self.head.next = node
 
+# Test case 1
 our_cache = LRU_Cache(5)
 
-our_cache.set(1, 1);
-our_cache.set(2, 2);
-our_cache.set(3, 3);
-our_cache.set(4, 4);
+our_cache.set(1, 1)
+our_cache.set(2, 2)
+our_cache.set(3, 3)
+our_cache.set(4, 4)
 
-
-our_cache.get(1)       # returns 1
-our_cache.get(2)       # returns 2
-our_cache.get(9)      # returns -1 because 9 is not present in the cache
-
+print(our_cache.get(1)) # Expected: 1
+print(our_cache.get(2)) # Expected: 2    
+print(our_cache.get(9)) # Expected: -1 because 9 is not present in the cache    
 our_cache.set(5, 5) 
 our_cache.set(6, 6)
+print(our_cache.get(3)) # Expected: -1 because the cache reached it's capacity and 3 was the least recently used entry
 
-our_cache.get(3)      # returns -1 because the cache reached it's capacity and 3 was the least recently used entry
+# Test case 2
+our_cache2 = LRU_Cache(0)
+
+our_cache2.set(1, 1)
+print(our_cache2.get(1)) # Expected: -1 because there is no cache capacity
+
+# Test case 2
+our_cache3 = LRU_Cache(5)
+
+our_cache3.set(None, 88888888)
+
+print(our_cache3.get(None)) # Expected: -1 because it's expecting a value that is not a NoneType
+
+
+
