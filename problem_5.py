@@ -23,6 +23,9 @@ class Block:
         self.timestamp = timestamp
         self.data = new_data
         self.hash = self.calc_hash(new_data)
+    
+    def __repr__(self):
+        return "[Timestamp: {}, Data: {}, PrevHash: {}, Hash:{}]".format(self.timestamp, self.data, self.previous_hash, self.hash)
 
 import datetime  
 
@@ -38,8 +41,8 @@ class LinkedList:
         return Node(block)
         
     def add(self, value):
-        if value is None:
-            return None
+        if not value:
+            return 'Can\'t add block without any data!'
 
         if self.head is None:
             self.head = self.get_node(value)
@@ -50,7 +53,7 @@ class LinkedList:
         tail.next = self.get_node(value, tail.value.hash)
         self.tail = tail.next
 
-        return tail.next.value.hash
+        return tail.next.value
     
     def get_latest(self):
         if self.head is None:
@@ -72,7 +75,7 @@ class LinkedList:
     
     def is_chain_valid(self):
         if self.head is None:
-            return 'No record'
+            return 'No record found'
         tail = self.head
         while tail.next:
             if tail.value.hash != tail.next.value.previous_hash:
@@ -81,6 +84,16 @@ class LinkedList:
         
         return True
 
+    def __str__(self):
+        if self.head is None:
+            return 'Blockchain empty!'
+        cur_head = self.head
+        out_string = ""
+        while cur_head:
+            out_string += str(cur_head.value.data) + " -> "
+            cur_head = cur_head.next
+        return out_string 
+
 # Test case 1
 
 blockchain = LinkedList()
@@ -88,6 +101,7 @@ print(blockchain.add('data1'))
 print(blockchain.add('data2'))
 print(blockchain.add('data3'))
 print(blockchain.add('data4'))
+print('Blockchain : ', blockchain) # Expected: data1 -> data2 -> data3 -> data4 ->
 print(blockchain.get_latest()) # Expected: data4
 print(blockchain.is_chain_valid()) # Expected: True
 
@@ -97,13 +111,20 @@ blockchain = LinkedList()
 print(blockchain.add('input1'))
 print(blockchain.add('input2'))
 print(blockchain.add('input3'))
+print('Blockchain : ', blockchain) # Expected: input1 -> input2 -> input3 ->
 print(blockchain.is_chain_valid()) # Expected: True
 blockchain.update('124d8541ff3d7a18b95432bdfbecd86816b86c8265bff44ef629765afb25f06b', 'ZZZZ')
+print('Blockchain : ', blockchain) # Expected: input1 -> ZZZZ -> input3 ->
 print(blockchain.is_chain_valid()) # Expected: False
 
 # Test case 3
 
 blockchain = LinkedList()
-print(blockchain.add(None)) # Expected: None
-print(blockchain.add(None)) # Expected: None
+print(blockchain.add('')) # Expected: Can't add block without any data!
+print(blockchain.add(None)) # Expected: Can't add block without any data!
 print(blockchain.add('input3')) # Expected: <The hash value of "input3"> 
+
+# Test case 4
+
+blockchain = LinkedList()
+print(blockchain) # Expected: Blockchain empty!

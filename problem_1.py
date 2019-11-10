@@ -48,6 +48,11 @@ class LRU_Cache:
         else:
             node.value = value
             self.move_to_front(node)
+
+        a = self.head
+        while a:
+            print(a.key, ' -', a.value)
+            a = a.next
        
     def move_to_front(self, node):
         self.remove_back(node)
@@ -110,6 +115,21 @@ our_cache3 = LRU_Cache(5)
 our_cache3.set(None, 88888888)
 
 print(our_cache3.get(None)) # Expected: -1 because it's expecting a value that is not a NoneType
+
+# Test case 4
+print('------')
+our_cache = LRU_Cache(3)
+
+our_cache.set(1, 1)
+our_cache.set(2, 2)
+our_cache.set(3, 3)
+
+print(our_cache.get(2)) # Expected: 2
+
+our_cache.set(2, 4)
+
+print(our_cache.get(2)) # Expected: 4 and this value will move back to the head
+
 
 
 

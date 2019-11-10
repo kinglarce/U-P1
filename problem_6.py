@@ -17,8 +17,7 @@ class LinkedList:
         while cur_head:
             out_string += str(cur_head.value) + " -> "
             cur_head = cur_head.next
-        return out_string 
-
+        return out_string
 
     def append(self, value):
         if value is None:
@@ -46,6 +45,26 @@ class LinkedList:
 def union(llist_1, llist_2):
     # Your Solution Here
     linked_list = LinkedList()
+    uniq_set = set()
+    
+    llist_1_tail = llist_1.head
+    while llist_1_tail:
+        uniq_set.add(llist_1_tail.value)
+        llist_1_tail = llist_1_tail.next
+    
+    llist_2_tail = llist_2.head
+    while llist_2_tail:
+        uniq_set.add(llist_2_tail.value)
+        llist_2_tail = llist_2_tail.next
+        
+    for value in uniq_set:
+        linked_list.append(value)
+    
+    return linked_list
+
+def intersection(llist_1, llist_2):
+    # Your Solution Here
+    linked_list = LinkedList()
     uniq_dict = dict()
     
     llist_1_tail = llist_1.head
@@ -65,26 +84,6 @@ def union(llist_1, llist_2):
     
     return linked_list
 
-def intersection(llist_1, llist_2):
-    # Your Solution Here
-    linked_list = LinkedList()
-    uniq_set = set()
-    
-    llist_1_tail = llist_1.head
-    while llist_1_tail:
-        uniq_set.add(llist_1_tail.value)
-        llist_1_tail = llist_1_tail.next
-    
-    llist_2_tail = llist_2.head
-    while llist_2_tail:
-        uniq_set.add(llist_2_tail.value)
-        llist_2_tail = llist_2_tail.next
-        
-    for value in uniq_set:
-        linked_list.append(value)
-    
-    return linked_list
-
 # Test case 1
 
 linked_list_1 = LinkedList()
@@ -99,8 +98,8 @@ for i in element_1:
 for i in element_2:
     linked_list_2.append(i)
 
-print (union(linked_list_1,linked_list_2)) # Expected: 4 -> 6 -> 21 ->
-print (intersection(linked_list_1,linked_list_2)) # Expected: 32 -> 65 -> 2 -> 35 -> 3 -> 4 -> 6 -> 1 -> 9 -> 11 -> 21 ->
+print (union(linked_list_1,linked_list_2)) # Expected: 32 -> 65 -> 2 -> 35 -> 3 -> 4 -> 6 -> 1 -> 9 -> 11 -> 21 ->
+print (intersection(linked_list_1,linked_list_2)) # Expected: 4 -> 6 -> 21 ->
 
 # Test case 2
 
@@ -116,8 +115,8 @@ for i in element_1:
 for i in element_2:
     linked_list_4.append(i)
 
-print (union(linked_list_3,linked_list_4)) # Expected: ""(Empty) since both the linkedlist has unique values
-print (intersection(linked_list_3,linked_list_4)) # Expected: 65 -> 2 -> 35 -> 3 -> 4 -> 6 -> 1 -> 7 -> 8 -> 9 -> 11 -> 21 -> 23 ->
+print (union(linked_list_3,linked_list_4)) # Expected: 65 -> 2 -> 35 -> 3 -> 4 -> 6 -> 1 -> 7 -> 8 -> 9 -> 11 -> 21 -> 23 ->
+print (intersection(linked_list_3,linked_list_4)) # Expected: ""(Empty) since both the linkedlist has unique values
 
 # Test case 3
 

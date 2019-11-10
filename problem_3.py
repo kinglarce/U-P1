@@ -21,7 +21,6 @@ def trim_tree(node):
     return char, left, right
 
 def get_char_codes(node, is_reverse=False, current_code=""):
-
     char_codes = dict()
 
     if node is None:
@@ -29,6 +28,7 @@ def get_char_codes(node, is_reverse=False, current_code=""):
     else:
         char, left, right = node
         if char is not None:
+            current_code = "0" if len(current_code) == 0 else current_code
             if is_reverse is False:
                 char_codes[char] = current_code
             else:
@@ -51,8 +51,8 @@ def huffman_encoding(data):
     # Find the frequency
     # Order the frequency
     # Add up the lowest frequency
-    if data is None or len(data) == 0:
-        return None, None
+    if not data or not isinstance(data, str):
+        return 'Invalid data!', None
 
     char_freq = get_char_freq(data)
     char_list = [(char, freq, None, None) for char, freq in char_freq.items()]
@@ -119,15 +119,24 @@ encoded_data, tree = huffman_encoding(None)
 print ("The content of the encoded data is: {}\n".format(encoded_data))
 
 encoded_data, tree = huffman_encoding("S")
-# Expected: ""(empty) because it's only a single text and it cannot do the halving
+# Expected: 0 because it's only a single text and it cannot do the halving
 print ("The content of the encoded data is: {}\n".format(encoded_data))
 
 decoded_data = huffman_decoding(encoded_data, tree)
 
-# Expected: None
+# Expected: S
 print ("The content of the encoded data is: {}\n".format(decoded_data))
 
-# Test case 2
+encoded_data, tree = huffman_encoding("aaaaa")
+# Expected: 00000 because it's only a single text and it cannot do the halving and it's just a repitition of the codes
+print ("The content of the encoded data is: {}\n".format(encoded_data))
+
+decoded_data = huffman_decoding(encoded_data, tree)
+
+# Expected: aaaaa
+print ("The content of the encoded data is: {}\n".format(decoded_data))
+
+# Test case 3
 
 a_massive_input = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."
 
@@ -149,3 +158,9 @@ print ("The content of the encoded data is: {}\n".format(decoded_data))
 
 # Expected: True
 print ("Is it the same? {}\n".format(a_massive_input == decoded_data))
+
+# Test case 4
+
+encoded_data, tree = huffman_encoding(123)
+# Expected: Invalid data! because it's expecting a string
+print ("The content of the encoded data is: {}\n".format(encoded_data))
